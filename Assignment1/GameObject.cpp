@@ -4,7 +4,8 @@ void GameObject::Load(const char* filename)
 {
 	m_sprite = new Sprite();
 
-	int textureIndex = GameInst::Instance()->GetTextureResource()->LoadTexture(filename);
+	int textureIndex;
+	GameInst::Instance()->GetTextureResource()->LoadTexture(filename, &textureIndex);
 
 	m_sprite->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 }

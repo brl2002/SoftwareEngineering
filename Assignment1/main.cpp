@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv)
 {
-	GameInst::Instance()->Init("test", 800, 600, false);
+	GameInst::Instance()->Init("SchoolRPG", 800, 600, false);
 
 	return 0;
 } 

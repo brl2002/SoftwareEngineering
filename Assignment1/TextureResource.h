@@ -15,13 +15,15 @@ public:
 	TextureResource(SDL_Renderer *renderer);
 	~TextureResource();
 
-	int LoadTexture(const std::string &file);
+	void LoadTexture(const std::string &file, int *queryIndex);
 
-	int LoadTMX(const char *file);
+	void LoadTMX(const char *file, int *queryIndex);
 
-	int LoadTextureWithAlphaKey(const char *file, Uint8 r, Uint8 g, Uint8 b);
+	void LoadTextureWithAlphaKey(const char *file, int *queryIndex, Uint8 r, Uint8 g, Uint8 b);
 
 	SDL_Texture* GetTexture(int boundIndex) const;
+
+	void ReleaseTextures();
 
 	int TotalTextures() { return m_textures.size(); }
 

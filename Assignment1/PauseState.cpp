@@ -10,7 +10,8 @@ void PauseState::Init()
 {
 	pauseSprite = new Sprite();
 
-	int textureIndex = GameInst::Instance()->GetTextureResource()->LoadTexture("../res/image.bmp");
+	int textureIndex;
+	GameInst::Instance()->GetTextureResource()->LoadTexture("../res/image.bmp", &textureIndex);
 
 	pauseSprite->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 }

@@ -6,7 +6,8 @@ void Map::Load(char* filename)
 	TMXParser parser(filename);
 	//m_sprite = new Sprite(parser.getImageSource().c_str());
 	m_sprite = new Sprite();
-	int textureIndex = GameInst::Instance()->GetTextureResource()->LoadTMX(filename);
+	int textureIndex;
+	GameInst::Instance()->GetTextureResource()->LoadTMX(filename, &textureIndex);
 
 	m_sprite->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 

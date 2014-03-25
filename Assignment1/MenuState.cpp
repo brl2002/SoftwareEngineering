@@ -11,7 +11,8 @@ void MenuState::Init()
 {
 	menuSprite = new Sprite();
 
-	int textureIndex = GameInst::Instance()->GetTextureResource()->LoadTexture("../res/background.bmp");
+	int textureIndex;
+	GameInst::Instance()->GetTextureResource()->LoadTexture("../res/background.bmp", &textureIndex);
 
 	menuSprite->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 }

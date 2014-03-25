@@ -15,21 +15,22 @@ TextureResource::~TextureResource()
 	m_textures.clear();
 }
 
-int TextureResource::LoadTexture(const std::string &file)
+void TextureResource::LoadTexture(const std::string &file, int *queryIndex)
 {
 	SDL_Texture *texture = IMG_LoadTexture(m_renderer, file.c_str());
 
 	if (texture == nullptr)
 	{
 		Utility::logSDLError(std::cout, "LoadTexture");
-		return -1;
+		*queryIndex = -1;
+		return;
 	}
 
 	m_textures.push_back(texture);
-	return m_textures.size()-1;
+	*queryIndex = m_textures.size()-1;
 }
 
-int TextureResource::LoadTMX(const char *file)
+void TextureResource::LoadTMX(const char *file, int *queryIndex)
 {
 	TMXParser parser(file);
 
@@ -56,10 +57,10 @@ int TextureResource::LoadTMX(const char *file)
 	}
 
 	m_textures.push_back(texture);
-	return m_textures.size()-1;
+	*queryIndex = m_textures.size()-1;
 }
 
-int TextureResource::LoadTextureWithAlphaKey(const char *file, Uint8 r, Uint8 g, Uint8 b)
+void TextureResource::LoadTextureWithAlphaKey(const char *file, int *queryIndex, Uint8 r, Uint8 g, Uint8 b)
 {
 	SDL_Texture *texture = NULL;
 	SDL_Surface *surface = IMG_Load(file);
@@ -67,7 +68,8 @@ int TextureResource::LoadTextureWithAlphaKey(const char *file, Uint8 r, Uint8 g,
 	if (surface == nullptr)
 	{
 		Utility::logSDLError(std::cout, "CreateSurface");
-		return -1;
+		*queryIndex = -1;
+		return;
 	}
 
 	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, r, g, b));
@@ -81,7 +83,7 @@ int TextureResource::LoadTextureWithAlphaKey(const char *file, Uint8 r, Uint8 g,
 	SDL_FreeSurface(surface);
 
 	m_textures.push_back(texture);
-	return m_textures.size()-1;
+	*queryIndex = m_textures.size()-1;
 }
 
 SDL_Texture* TextureResource::GetTexture(int boundTexture) const
@@ -89,4 +91,14 @@ SDL_Texture* TextureResource::GetTexture(int boundTexture) const
 	assert(boundTexture >= 0 && boundTexture < m_textures.size());
 
 	return m_textures[boundTexture];
+}
+
+void TextureResource::ReleaseTextures()
+{
+	for (int i = 0; i < m_textures.size(); ++i)
+	{
+		SDL_DestroyTexture(m_textures[i]);
+	}
+
+	m_textures.clear();
 }

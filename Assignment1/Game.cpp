@@ -164,6 +164,8 @@ void Game::Clean()
 		states.pop_back();
 	}
 
+	m_textureResource->ReleaseTextures();
+
 	// shutdown SDL
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
