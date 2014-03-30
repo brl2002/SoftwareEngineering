@@ -65,27 +65,31 @@ void Game::Init(const char* title, int width, int height, bool fullscreen)
 
 void Game::LoadGame()
 {
+	SDL_Event e;
+
 	ChangeState(PlayState::Instance());
 
 	// game loop implementation
-	float previousTime = 0;
-	float currentTime = 0;
+	unsigned int currentTime, prevTime = 0;
 		
-	while (Running())
+	while (m_bRunning)
 	{
-		previousTime = currentTime;
-		currentTime = GetTime();
-		float deltaTime = currentTime - previousTime;
-
-		if (deltaTime > 0.15)
+		while(SDL_PollEvent(&e))
 		{
-			Update(deltaTime);
-			
-			deltaTime = 0.15;
+			HandleEvents(e);
 		}
 
-		HandleEvents();
+		HandleKeyInput(SDL_GetKeyboardState(NULL));
+
+		currentTime = SDL_GetTicks();
+
+		float deltaTime = (float)((currentTime - prevTime) / 1000.0f);
+
+		Update(deltaTime);
+
 		Draw();
+
+		prevTime = currentTime;
 	}
 
 	Clean();
@@ -134,10 +138,15 @@ void Game::PopState()
 	}
 }
 
-void Game::HandleEvents()
+void Game::HandleEvents(const SDL_Event &e)
 {
 	// let the state handle events
-	states.back()->HandleEvents();
+	states.back()->HandleEvents(e);
+}
+
+void Game::HandleKeyInput(const Uint8 *keyState)
+{
+	states.back()->HandleKeyInput(keyState);
 }
 
 void Game::Update(float deltaTime)
@@ -173,13 +182,4 @@ void Game::Clean()
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
-}
-
-float Game::GetTime()
-{
-	SYSTEMTIME st;
-	GetSystemTime(&st);
-
-	float currentTimeInSeconds = st.wSecond;
-	return currentTimeInSeconds;
 }

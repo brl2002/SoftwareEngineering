@@ -5,16 +5,6 @@ TextureResource::TextureResource(SDL_Renderer *renderer) : m_renderer(renderer)
 
 }
 
-TextureResource::~TextureResource()
-{
-	for (int i = 0; i < m_textures.size(); ++i)
-	{
-		delete m_textures[i];
-	}
-
-	m_textures.clear();
-}
-
 void TextureResource::LoadTexture(const std::string &file, int *queryIndex)
 {
 	SDL_Texture *texture = IMG_LoadTexture(m_renderer, file.c_str());

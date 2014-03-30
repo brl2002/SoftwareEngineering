@@ -6,6 +6,9 @@
 #include "GameState.h"
 #include "Player.h"
 #include "Map.h"
+#include "NavPlayer.h"
+#include "Factory.h"
+#include "Physics2D.h"
 #include <vector>
 
 class PlayState : public GameState
@@ -19,7 +22,8 @@ public:
 	void Pause();
 	void Resume();
 
-	void HandleEvents();
+	void HandleEvents(const SDL_Event &e);
+	void HandleKeyInput(const Uint8 *keyState);
 	void Update(float deltaTime);
 	void Draw();
 
@@ -36,6 +40,8 @@ private:
 	static PlayState m_PlayState;
 
 	Map* map;
+
+	NavPlayer *m_navPlayer;
 };
 
 #endif

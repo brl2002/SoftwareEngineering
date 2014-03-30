@@ -11,7 +11,7 @@ public:
 	Map() {}
 	~Map() {}
 
-	void Load(char* filename);
+	void Load(TextureResource *textureResource, char* filename);
 	void Update(float deltaTime);
 	void Draw();
 	void Clean();

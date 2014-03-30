@@ -27,27 +27,27 @@ void MenuState::Resume()
 	std::cout << "MenuState Resumed" << std::endl;
 }
 
-void MenuState::HandleEvents()
+void MenuState::HandleEvents(const SDL_Event &e)
 {
-	SDL_Event event;
-
-	if (SDL_PollEvent(&event))
+	switch (e.type)
 	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				GameInst::Instance()->Quit();
-				break;
+		case SDL_QUIT:
+			GameInst::Instance()->Quit();
+			break;
 
-			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym)
-				{
-					case SDLK_SPACE:
-						GameInst::Instance()->ChangeState(PlayState::Instance());
-						break;
-				}
-		}
+		case SDL_KEYDOWN:
+			switch(e.key.keysym.sym)
+			{
+				case SDLK_SPACE:
+					GameInst::Instance()->ChangeState(PlayState::Instance());
+					break;
+			}
 	}
+}
+
+void MenuState::HandleKeyInput(const Uint8 *keyState)
+{
+
 }
 
 void MenuState::Update(float deltaTime)

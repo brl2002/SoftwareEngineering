@@ -80,13 +80,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Animation.cpp" />
+    <ClCompile Include="..\Collider.cpp" />
     <ClCompile Include="..\EventHandler.cpp" />
+    <ClCompile Include="..\Factory.cpp" />
     <ClCompile Include="..\Game.cpp" />
     <ClCompile Include="..\GameObject.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\Map.cpp" />
     <ClCompile Include="..\MenuState.cpp" />
+    <ClCompile Include="..\NavPlayer.cpp" />
     <ClCompile Include="..\PauseState.cpp" />
+    <ClCompile Include="..\Physics2D.cpp" />
     <ClCompile Include="..\Player.cpp" />
     <ClCompile Include="..\PlayState.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
@@ -95,18 +99,26 @@
     <ClCompile Include="..\Tile.cpp" />
     <ClCompile Include="..\tinyxml2.cpp" />
     <ClCompile Include="..\TMXParser.cpp" />
+    <ClCompile Include="..\Vector3.cpp" />
     <ClCompile Include="..\XMLTranscoder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Animation.h" />
+    <ClInclude Include="..\Collider.h" />
+    <ClInclude Include="..\Component.h" />
     <ClInclude Include="..\EventHandler.h" />
+    <ClInclude Include="..\Factory.h" />
     <ClInclude Include="..\Game.h" />
     <ClInclude Include="..\GameObject.h" />
     <ClInclude Include="..\GameState.h" />
+    <ClInclude Include="..\IEvent.h" />
+    <ClInclude Include="..\INavObject.h" />
     <ClInclude Include="..\IObserver.h" />
     <ClInclude Include="..\Map.h" />
     <ClInclude Include="..\MenuState.h" />
+    <ClInclude Include="..\NavPlayer.h" />
     <ClInclude Include="..\PauseState.h" />
+    <ClInclude Include="..\Physics2D.h" />
     <ClInclude Include="..\Player.h" />
     <ClInclude Include="..\PlayState.h" />
     <ClInclude Include="..\Error.h" />
@@ -117,6 +129,7 @@
     <ClInclude Include="..\Tile.h" />
     <ClInclude Include="..\tinyxml2.h" />
     <ClInclude Include="..\TMXParser.h" />
+    <ClInclude Include="..\Vector3.h" />
     <ClInclude Include="..\XMLTranscoder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

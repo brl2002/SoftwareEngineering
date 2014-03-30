@@ -14,7 +14,8 @@ public:
 	void Pause();
 	void Resume();
 
-	void HandleEvents();
+	void HandleEvents(const SDL_Event &e);
+	void HandleKeyInput(const Uint8 *keyState);
 	void Update(float deltaTime);
 	void Draw();
 

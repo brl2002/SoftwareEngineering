@@ -13,6 +13,8 @@
 
 class GameState;
 class TextureResource;
+class Factory;
+class Physics2D;
 
 class Game
 {
@@ -26,7 +28,8 @@ public:
 	void PushState(GameState* state);
 	void PopState();
 
-	void HandleEvents();
+	void HandleEvents(const SDL_Event &e);
+	void HandleKeyInput(const Uint8 *keyState);
 	void Update(float deltaTime);
 	void Draw();
 

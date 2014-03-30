@@ -2,11 +2,8 @@
 #include "Game.h"
 #include <iostream>
 
-Sprite::Sprite()
+Sprite::Sprite() : m_texture(NULL), m_currentAnimTime(0)
 {
-	// The final optimized image
-	m_texture = NULL;
-
 	// Load image at specified path
 	//SDL_Surface* loadedSurface = IMG_Load(pfile);
 

@@ -20,27 +20,27 @@ void PauseState::Pause() {}
 
 void PauseState::Resume() { }
 
-void PauseState::HandleEvents()
+void PauseState::HandleEvents(const SDL_Event &e)
 {
-	SDL_Event event;
-
-	if (SDL_PollEvent(&event))
+	switch (e.type)
 	{
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			GameInst::Instance()->Quit();
-			break;
+	case SDL_QUIT:
+		GameInst::Instance()->Quit();
+		break;
 
-			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym)
-				{
-					case SDLK_SPACE:
-						GameInst::Instance()->PopState();
-						break;
-				}
-		}
+		case SDL_KEYDOWN:
+			switch(e.key.keysym.sym)
+			{
+				case SDLK_SPACE:
+					GameInst::Instance()->PopState();
+					break;
+			}
 	}
+}
+
+void PauseState::HandleKeyInput(const Uint8 *keyState)
+{
+
 }
 
 void PauseState::Update(float deltaTime)

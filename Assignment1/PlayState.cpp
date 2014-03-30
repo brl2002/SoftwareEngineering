@@ -20,7 +20,12 @@ void PlayState::Init()
 	//GameObjects.push_back(go);
 
 	map = new Map();
-	map->Load("../res/map.tmx");
+	map->Load(GameInst::Instance()->GetTextureResource(), "../res/map.tmx");
+
+	Factory::getInstance()->CreateNavPlayer();
+	m_navPlayer = Factory::getInstance()->GetNavPlayer();
+
+	Physics2D::getInstance().ToggleDebug();
 
 	GameObjects.push_back(map);
 }
@@ -35,27 +40,38 @@ void PlayState::Resume()
 	std::cout << "PlayState Resumed" << std::endl;
 }
 
-void PlayState::HandleEvents()
+void PlayState::HandleEvents(const SDL_Event &e)
 {
-	SDL_Event event;
-
-	if (SDL_PollEvent(&event))
+	switch (e.type)
 	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
+		case SDL_QUIT:
+			GameInst::Instance()->Quit();
+			break;
+
+		case SDL_KEYDOWN:
+			switch(e.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
 				GameInst::Instance()->Quit();
 				break;
-
-			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym)
-				{
-					case SDLK_SPACE:
-						GameInst::Instance()->PushState(PauseState::Instance());
-						break;
-				}
-		}
+			case SDLK_SPACE:
+				GameInst::Instance()->PushState(PauseState::Instance());
+				break;
+			}
 	}
+}
+
+void PlayState::HandleKeyInput(const Uint8 *keyState)
+{
+	if (keyState[SDL_SCANCODE_D])
+		m_navPlayer->SetVelocity(100, m_navPlayer->GetVelocityY());
+	else if (keyState[SDL_SCANCODE_A])
+		m_navPlayer->SetVelocity(-100, m_navPlayer->GetVelocityY());
+
+	if (keyState[SDL_SCANCODE_W])
+		m_navPlayer->SetVelocity(m_navPlayer->GetVelocityX(), -100);
+	else if (keyState[SDL_SCANCODE_S])
+		m_navPlayer->SetVelocity(m_navPlayer->GetVelocityX(), 100);
 }
 
 void PlayState::Update(float deltaTime)
@@ -69,6 +85,11 @@ void PlayState::Update(float deltaTime)
 
 		GameObjects[i]->Update(deltaTime);
 	}
+
+	m_navPlayer->Update(deltaTime);
+	m_navPlayer->Move(deltaTime);
+
+	Physics2D::getInstance().Update();
 }
 
 void PlayState::Draw()
@@ -82,6 +103,12 @@ void PlayState::Draw()
 
 		GameObjects[i]->Draw();
 	}
+
+	m_navPlayer->Draw();
+
+	Physics2D::getInstance().DebugDraw();
+
+	m_navPlayer->SetVelocity(0, 0);
 }
 
 void PlayState::Clean()
@@ -96,6 +123,10 @@ void PlayState::Clean()
 		GameObjects[i]->Clean();
 	}
 	GameObjects.clear();
+
+	delete map;
+
+	Factory::getInstance()->DestoryNavPlayer();
 
 	std::cout << "PlayState Clean Successful" << std::endl;
 }

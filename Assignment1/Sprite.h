@@ -15,13 +15,11 @@ public:
 	Sprite();
 	~Sprite();
 
-	void BindTexture(TextureResource *textureResource, int bindIndex);
-
 	bool Draw(int x, int y);
 	bool Draw(int x, int y, int width, int height);
 	bool Draw(int x, int y, SDL_Rect rect);
-	
-	void BindTexture(int textureIndex);
+
+	void BindTexture(TextureResource *textureResource, int bindIndex);
 
 	void BindTranscoder(XMLTranscoder *transcoder);
 

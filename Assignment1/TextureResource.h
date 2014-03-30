@@ -13,7 +13,6 @@ class TextureResource
 {
 public:
 	TextureResource(SDL_Renderer *renderer);
-	~TextureResource();
 
 	void LoadTexture(const std::string &file, int *queryIndex);
 

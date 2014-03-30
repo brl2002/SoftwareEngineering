@@ -1,8 +1,8 @@
 #include "Player.h"
 
-void Player::Load(char* filename)
+void Player::Load(TextureResource *textureResource, char* filename)
 {
-	GameObject::Load(filename);
+	GameObject::Load(textureResource, filename);
 }
 
 void Player::Update(float deltaTime)
