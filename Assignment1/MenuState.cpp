@@ -60,6 +60,11 @@ void MenuState::Draw()
 	menuSprite->Draw(0, 0);
 }
 
+void MenuState::PostUpdate()
+{
+
+}
+
 void MenuState::Clean()
 {
 	

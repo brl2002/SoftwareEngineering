@@ -53,6 +53,11 @@ void PauseState::Draw()
 	pauseSprite->Draw(0, 0);
 }
 
+void PauseState::PostUpdate()
+{
+
+}
+
 void PauseState::Clean()
 {
 	

@@ -26,6 +26,7 @@ public:
 	void HandleKeyInput(const Uint8 *keyState);
 	void Update(float deltaTime);
 	void Draw();
+	void PostUpdate();
 
 	// Implement Singleton Pattern
 	static PlayState* Instance()

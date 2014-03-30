@@ -111,6 +111,11 @@ void PlayState::Draw()
 	m_navPlayer->SetVelocity(0, 0);
 }
 
+void PlayState::PostUpdate()
+{
+
+}
+
 void PlayState::Clean()
 {
 	for (unsigned int i = 0; i < GameObjects.size(); i++)
