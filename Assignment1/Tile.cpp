@@ -15,7 +15,8 @@ void Tile::Update(float deltaTime)
 
 void Tile::Draw()
 {
-	m_spriteSheet->Draw(_x, _y, m_rect);
+	if (m_spriteSheet != nullptr)
+		m_spriteSheet->Draw(_x, _y, m_rect);
 }
 
 void Tile::Clean()

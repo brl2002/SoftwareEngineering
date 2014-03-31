@@ -14,8 +14,6 @@
 class PlayState : public GameState
 {
 public:
-	std::vector<GameObject*> GameObjects;
-
 	void Init();
 	void Clean();
 
@@ -40,9 +38,8 @@ protected:
 private:
 	static PlayState m_PlayState;
 
-	Map* map;
-
-	NavPlayer *m_navPlayer;
+	Map* m_pMap;
+	NavPlayer* m_pNavPlayer;
 };
 
 #endif

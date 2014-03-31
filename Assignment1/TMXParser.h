@@ -19,9 +19,11 @@ public:
 
 	std::string getImageSource() { return m_imageSource; };
 	std::vector<SDL_Rect> getRects() { return m_rects; };
-	std::vector<int> getGIDs() { return m_gid; };
+	//std::vector<int> getGIDs() { return m_gid; };
 
-	SDL_Rect getRect(int x, int y);
+	int getNumLayers() { return m_numLayers; }
+
+	SDL_Rect* getRect(int x, int y, int layer);
 
 private:
 	void ParseXML(const char* filename);
@@ -38,12 +40,14 @@ private:
 	std::string m_imageSource;
 
 	// Array of gids
-	std::vector<int> m_gid;
 	std::vector<SDL_Rect> m_rects;
+	std::vector<std::vector<int>> m_layers;
 
 	// Width and height of source image
 	int m_imageWidth;
 	int m_imageHeight;
+
+	int m_numLayers;
 };
 
 #endif

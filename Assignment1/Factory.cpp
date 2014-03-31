@@ -15,22 +15,22 @@ void Factory::CreateNavPlayer()
 	int textureIndex;
 	GameInst::Instance()->GetTextureResource()->LoadTextureWithAlphaKey("../res/timspritesheet.png", &textureIndex, 255, 255, 255);
 
-	m_navPlayer = new NavPlayer();
-	m_navPlayer->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
-	m_navPlayer->SetDimension(25, 25);
-	Collider *col = new Collider(m_navPlayer->GetPosition().x, m_navPlayer->GetPosition().y, m_navPlayer->GetWidth(), m_navPlayer->GetHeight());
-	m_navPlayer->addCollider(col);
-	Physics2D::getInstance().addGameObject(m_navPlayer);
+	m_pNavPlayer = new NavPlayer();
+	m_pNavPlayer->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
+	m_pNavPlayer->SetDimension(25, 25);
+	Collider *col = new Collider(m_pNavPlayer->GetPosition().x, m_pNavPlayer->GetPosition().y, m_pNavPlayer->GetWidth(), m_pNavPlayer->GetHeight());
+	m_pNavPlayer->addCollider(col);
+	Physics2D::getInstance().addGameObject(m_pNavPlayer);
 }
 
 void Factory::DestoryNavPlayer()
 {
-	delete m_navPlayer;
+	delete m_pNavPlayer;
 }
 
 NavPlayer* Factory::GetNavPlayer()
 {
-	return m_navPlayer;
+	return m_pNavPlayer;
 }
 
 void Factory::CleanUp()

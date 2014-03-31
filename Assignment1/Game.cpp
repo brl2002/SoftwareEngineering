@@ -36,8 +36,8 @@ void Game::Init(const char* title, int width, int height, bool fullscreen)
 	
 	// Create the window
 	m_window = SDL_CreateWindow(title,
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
+		100,
+		100,
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		flags | SDL_WINDOW_OPENGL);
 	if (m_window == nullptr)

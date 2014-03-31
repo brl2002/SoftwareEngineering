@@ -19,15 +19,13 @@ void PlayState::Init()
 	//GameObjects.push_back(player);
 	//GameObjects.push_back(go);
 
-	map = new Map();
-	map->Load(GameInst::Instance()->GetTextureResource(), "../res/map.tmx");
+	m_pMap = new Map();
+	m_pMap->Load(GameInst::Instance()->GetTextureResource(), "../res/maps/map.tmx");
 
 	Factory::getInstance()->CreateNavPlayer();
-	m_navPlayer = Factory::getInstance()->GetNavPlayer();
+	m_pNavPlayer = Factory::getInstance()->GetNavPlayer();
 
 	Physics2D::getInstance().ToggleDebug();
-
-	GameObjects.push_back(map);
 }
 
 void PlayState::Pause()
@@ -64,51 +62,36 @@ void PlayState::HandleEvents(const SDL_Event &e)
 void PlayState::HandleKeyInput(const Uint8 *keyState)
 {
 	if (keyState[SDL_SCANCODE_D])
-		m_navPlayer->SetVelocity(100, m_navPlayer->GetVelocityY());
+		m_pNavPlayer->SetVelocity(100, m_pNavPlayer->GetVelocityY());
 	else if (keyState[SDL_SCANCODE_A])
-		m_navPlayer->SetVelocity(-100, m_navPlayer->GetVelocityY());
+		m_pNavPlayer->SetVelocity(-100, m_pNavPlayer->GetVelocityY());
 
 	if (keyState[SDL_SCANCODE_W])
-		m_navPlayer->SetVelocity(m_navPlayer->GetVelocityX(), -100);
+		m_pNavPlayer->SetVelocity(m_pNavPlayer->GetVelocityX(), -100);
 	else if (keyState[SDL_SCANCODE_S])
-		m_navPlayer->SetVelocity(m_navPlayer->GetVelocityX(), 100);
+		m_pNavPlayer->SetVelocity(m_pNavPlayer->GetVelocityX(), 100);
 }
 
 void PlayState::Update(float deltaTime)
 {
-	for (unsigned int i = 0; i < GameObjects.size(); i++)
-	{
-		if (!GameObjects[i])
-		{
-			continue;
-		}
-
-		GameObjects[i]->Update(deltaTime);
-	}
-
-	m_navPlayer->Update(deltaTime);
-	m_navPlayer->Move(deltaTime);
+	m_pMap->Update(deltaTime);
+	m_pNavPlayer->Update(deltaTime);
+	m_pNavPlayer->Move(deltaTime);
 
 	Physics2D::getInstance().Update();
 }
 
 void PlayState::Draw()
 {
-	for (unsigned int i = 0; i < GameObjects.size(); i++)
-	{
-		if (!GameObjects[i])
-		{
-			continue;
-		}
+	m_pMap->DrawBackground();
 
-		GameObjects[i]->Draw();
-	}
+	m_pNavPlayer->Draw();
 
-	m_navPlayer->Draw();
+	m_pMap->DrawForeground();
 
 	Physics2D::getInstance().DebugDraw();
 
-	m_navPlayer->SetVelocity(0, 0);
+	m_pNavPlayer->SetVelocity(0, 0);
 }
 
 void PlayState::PostUpdate()
@@ -118,18 +101,8 @@ void PlayState::PostUpdate()
 
 void PlayState::Clean()
 {
-	for (unsigned int i = 0; i < GameObjects.size(); i++)
-	{
-		if (!GameObjects[i])
-		{
-			continue;
-		}
-
-		GameObjects[i]->Clean();
-	}
-	GameObjects.clear();
-
-	delete map;
+	m_pMap->Clean();
+	delete m_pMap;
 
 	Factory::getInstance()->DestoryNavPlayer();
 

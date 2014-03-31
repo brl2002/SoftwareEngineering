@@ -36,7 +36,7 @@ private:
 private:
 	std::vector<GameObject*> m_deleteBuffer;
 
-	NavPlayer *m_navPlayer;
+	NavPlayer *m_pNavPlayer;
 };
 
 #endif

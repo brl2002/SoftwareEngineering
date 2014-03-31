@@ -4,6 +4,7 @@
 void Map::Load(TextureResource *textureResource, char* filename)
 {
 	TMXParser parser(filename);
+
 	//m_sprite = new Sprite(parser.getImageSource().c_str());
 	m_sprite = new Sprite();
 	int textureIndex;
@@ -17,17 +18,33 @@ void Map::Load(TextureResource *textureResource, char* filename)
 	m_width = parser.getWidth();
 	m_height = parser.getHeight();
 
-	int i = 0;
-	for (int x = 0; x < m_width; x++)
-	{
-		std::vector<Tile> row;
-		tiles.push_back(row);
+	m_numLayers = parser.getNumLayers();
 
-		for (int y = 0; y < m_height; y++)
+	int i = 0;
+
+	for (int l = 0; l < m_numLayers; l++)
+	{
+		TilesArray tiles;
+		for (int x = 0; x < m_width; x++)
 		{
-			Tile tile(x * tileWidth, y * tileHeight, m_sprite, parser.getRect(x, y));
-			tiles[x].push_back(tile);
+			std::vector<Tile*> row;
+			tiles.push_back(row);
+
+			for (int y = 0; y < m_height; y++)
+			{
+				SDL_Rect* r = parser.getRect(x, y, l);
+				Tile* tile = nullptr;
+
+				if (r != nullptr)
+				{
+					tile = new Tile(x * tileWidth, y * tileHeight, m_sprite, *r);
+				}
+
+				tiles[x].push_back(tile);
+			}
 		}
+
+		m_map.push_back(tiles);
 	}
 } 
 
@@ -36,13 +53,29 @@ void Map::Update(float deltaTime)
 
 }
 
-void Map::Draw()
+void Map::DrawBackground()
+{
+	for (int l = 0; l < m_numLayers - 1; l++)
+	{
+		for (int x = 0; x < m_width; x++)
+		{
+			for (int y = 0; y < m_height; y++)
+			{
+				if (m_map[l][x][y] != nullptr)
+					m_map[l][x][y]->Draw();
+			}
+		}
+	}
+}
+
+void Map::DrawForeground()
 {
 	for (int x = 0; x < m_width; x++)
 	{
 		for (int y = 0; y < m_height; y++)
 		{
-			tiles[x][y].Draw();
+			if (m_map[m_numLayers - 1][x][y] != nullptr)
+				m_map[m_numLayers - 1][x][y]->Draw();
 		}
 	}
 }
@@ -50,4 +83,19 @@ void Map::Draw()
 void Map::Clean()
 {
 	GameObject::Clean();
+
+	for (int l = 0; l < m_numLayers; l++)
+	{
+		for (int x = 0; x < m_width; x++)
+		{
+			for (int y = 0; y < m_height; y++)
+			{
+				if (m_map[l][x][y] != nullptr)
+				{
+					delete m_map[l][x][y];
+					m_map[l][x][y] = nullptr;
+				}
+			}
+		}
+	}
 }

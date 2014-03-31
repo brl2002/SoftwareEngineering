@@ -38,31 +38,39 @@ void TMXParser::ParseXML(const char* filename)
 	XMLElement* elem = root->FirstChildElement("tileset");
 	if (elem)
 	{
-		elem = elem->FirstChildElement("image");
-		if (elem)
+		tinyxml2::XMLElement* child = elem->FirstChildElement("image");
+		if (child)
 		{
-			std::string file = "../res/";
-			m_imageSource = (file.append(elem->Attribute("source")));
+			std::string file = "../res/tilesets/";
+			m_imageSource = (file.append(child->Attribute("source")));
 
-			m_imageWidth = atoi(elem->Attribute("width"));
-			m_imageHeight = atoi(elem->Attribute("height"));
+			m_imageWidth = atoi(child->Attribute("width"));
+			m_imageHeight = atoi(child->Attribute("height"));
 		}
 	}
+
+	m_numLayers = 0;
 
 	// Look for gids
-	elem = root->FirstChildElement("layer");
-	if (elem)
+	for (elem = root->FirstChildElement("layer"); elem != nullptr; elem = elem->NextSiblingElement("layer"))
 	{
-		elem = elem->FirstChildElement("data");
-	}
+		m_numLayers += 1;
 
-	if (elem)
-	{
-		for (elem = elem->FirstChildElement("tile"); elem != nullptr; elem = elem->NextSiblingElement())
+		// vector holding tiles
+		std::vector<int> gids;
+
+		tinyxml2::XMLElement* child = elem->FirstChildElement("data");
+		if (child)
 		{
-			m_gid.push_back(atoi(elem->Attribute("gid")));
+			for (child = child->FirstChildElement("tile"); child != nullptr; child = child->NextSiblingElement("tile"))
+			{
+				gids.push_back(atoi(child->Attribute("gid")));
+			}
 		}
-	}
+
+		// add collection of tiles to the layer
+		m_layers.push_back(gids);
+	}	
 
 	doc.Clear();
 }
@@ -85,7 +93,11 @@ void TMXParser::LoadRects()
 	}
 }
 
-SDL_Rect TMXParser::getRect(int x, int y)
+SDL_Rect* TMXParser::getRect(int x, int y, int layer)
 {
-	return m_rects[m_gid[m_width * y + x] - 1];
+	int index = m_layers[layer][m_width * y + x] - 1;
+	if (index > 0)
+		return &m_rects[m_layers[layer][m_width * y + x] - 1];
+	else
+		return nullptr;
 }
