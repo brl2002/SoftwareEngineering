@@ -18,19 +18,8 @@ public:
 
 	void Draw();
 
-	void SetPostion(float x, float y);
-
-	float GetVelocityX() { return m_vx; }
-
-	float GetVelocityY() { return m_vy; }
-
-	void SetVelocity(float x, float y);
-
-	void Move(float dt);
-
 private:
 	XMLTranscoder *transcoder;
-	float m_vx, m_vy;
 };
 
 #endif

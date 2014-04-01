@@ -206,14 +206,14 @@
     <ClInclude Include="..\Tile.h">
       <Filter>Header Files\Map</Filter>
     </ClInclude>
-    <ClInclude Include="..\GameObject.h">
-      <Filter>Header Files\Additional</Filter>
-    </ClInclude>
     <ClInclude Include="..\Animation.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\Sprite.h">
       <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,6 +31,11 @@ public:
 
 	void SetDimension(float width, float height);
 
+	void SetPosition(float x, float y);
+	float GetVelocityX();
+	float GetVelocityY();
+	void SetVelocity(float x, float y);
+
 	Vector3& GetPosition();
 	float GetHalfWidth() { return m_halfWidth; }
 	float GetHalfHeight() { return m_halfHeight; }
@@ -44,6 +49,8 @@ protected:
 
 	Vector3 m_position;
 	float m_halfWidth, m_halfHeight;
+
+	float m_vx, m_vy;
 
 	Sprite *m_sprite;
 	Collider* m_collider;

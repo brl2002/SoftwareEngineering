@@ -1,6 +1,6 @@
 #include "NavPlayer.h"
 
-NavPlayer::NavPlayer() : GameObject(), m_vx(0), m_vy(0)
+NavPlayer::NavPlayer() : GameObject()
 {
 	m_sprite = new Sprite();
 
@@ -27,16 +27,4 @@ void NavPlayer::Update(float deltaTime)
 void NavPlayer::Draw()
 {
 	m_sprite->Draw(m_position.x-m_halfWidth, m_position.y-m_halfHeight, m_halfWidth*2, m_halfHeight*2);
-}
-
-void NavPlayer::SetVelocity(float x, float y)
-{
-	m_vx = x;
-	m_vy = y;
-}
-
-void NavPlayer::Move(float dt)
-{
-	m_position.x += m_vx * dt;
-	m_position.y += m_vy * dt;
 }
