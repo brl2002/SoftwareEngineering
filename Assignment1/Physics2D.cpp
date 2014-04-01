@@ -18,7 +18,7 @@ void Physics2D::addGameObject(GameObject* gameObject)
 	m_gameObject.push_back(gameObject);
 }
 
-void Physics2D::Update()
+void Physics2D::Update(float deltaTime)
 {
 	for (int resetNum = 0; resetNum < m_gameObject.size(); ++resetNum)
 	{
@@ -33,13 +33,21 @@ void Physics2D::Update()
 			if (m_gameObject[i]->IsEnabled() && m_gameObject[j]->IsEnabled() && m_gameObject[i] != m_gameObject[j])
 			{
 				Collider* collider = m_gameObject[i]->getCollider();
+				Collider* otherCollider = m_gameObject[j]->getCollider();
 
-				if (collider != nullptr)
+				if (collider != NULL && otherCollider != NULL)
 				{
-					if (collider->IsColliding(m_gameObject[j]))
+					if (collider->GetFlag() == IS_DYNAMIC)
+					{
+						if (!collider->IsMoveColliding(m_gameObject[j], deltaTime))
+						{
+							m_gameObject[i]->Move(deltaTime);
+						}
+					}
+					else if (collider->IsColliding(m_gameObject[j]))
 					{
 						m_gameObject[i]->onCollision(m_gameObject[j]);
-					}	
+					}
 				}
 			}
 		}
@@ -86,7 +94,7 @@ void Physics2D::DebugDraw()
 					rect.w = h_w*2;
 					rect.h = h_h*2;
 
-					SDL_SetRenderDrawColor(GameInst::Instance()->GetRenderer(), 120, 110, 150, 255);
+					SDL_SetRenderDrawColor(GameInst::Instance()->GetRenderer(), color.r, color.g, color.b, color.a);
 					SDL_RenderDrawRect(GameInst::Instance()->GetRenderer(), &rect);
 					SDL_RenderDrawPoint(GameInst::Instance()->GetRenderer(), x, y);
 				}

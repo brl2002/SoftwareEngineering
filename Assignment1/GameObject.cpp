@@ -78,6 +78,12 @@ void GameObject::SetVelocity(float x, float y)
 	m_vy = y;
 }
 
+void GameObject::Move(float dt)
+{
+	m_position.x += m_vx * dt;
+	m_position.y += m_vy * dt;
+}
+
 void GameObject::Enable() { m_enabled = true; }
 void GameObject::Disable() { m_enabled = false; }
 bool GameObject::IsEnabled() { return m_enabled; }

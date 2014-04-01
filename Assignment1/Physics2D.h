@@ -18,7 +18,7 @@ public:
 
 	void addGameObject(GameObject* gameObject);
 
-	void Update();
+	void Update(float deltaTime);
 
 	void DebugDraw();
 

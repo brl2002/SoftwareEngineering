@@ -18,7 +18,8 @@ void Factory::CreateNavPlayer()
 	m_pNavPlayer = new NavPlayer();
 	m_pNavPlayer->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 	m_pNavPlayer->SetDimension(25, 25);
-	Collider *col = new Collider(m_pNavPlayer->GetPosition().x, m_pNavPlayer->GetPosition().y, m_pNavPlayer->GetWidth(), m_pNavPlayer->GetHeight());
+	Collider *col = new Collider(0, 0, m_pNavPlayer->GetWidth(), m_pNavPlayer->GetHeight());
+	col->SetFlag(IS_DYNAMIC);
 	m_pNavPlayer->addCollider(col);
 	Physics2D::getInstance().addGameObject(m_pNavPlayer);
 }
@@ -31,6 +32,26 @@ void Factory::DestoryNavPlayer()
 NavPlayer* Factory::GetNavPlayer()
 {
 	return m_pNavPlayer;
+}
+
+void Factory::CreateBox()
+{
+	m_box = new GameObject();
+	m_box->SetPosition(100, 100);
+	Collider *col = new Collider(0, 0, 100, 100);
+	col->SetFlag(IS_STATIC);
+	m_box->addCollider(col);
+	Physics2D::getInstance().addGameObject(m_box);
+}
+
+void Factory::DestroyBox()
+{
+	delete m_box;
+}
+
+GameObject* Factory::GetBox()
+{
+	return m_box;
 }
 
 void Factory::CleanUp()

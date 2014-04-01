@@ -25,6 +25,8 @@ void PlayState::Init()
 	Factory::getInstance()->CreateNavPlayer();
 	m_pNavPlayer = Factory::getInstance()->GetNavPlayer();
 
+	Factory::getInstance()->CreateBox();
+
 	Physics2D::getInstance().ToggleDebug();
 }
 
@@ -76,9 +78,9 @@ void PlayState::Update(float deltaTime)
 {
 	m_pMap->Update(deltaTime);
 	m_pNavPlayer->Update(deltaTime);
-	m_pNavPlayer->Move(deltaTime);
+	//m_pNavPlayer->Move(deltaTime);
 
-	Physics2D::getInstance().Update();
+	Physics2D::getInstance().Update(deltaTime);
 }
 
 void PlayState::Draw()
@@ -105,6 +107,8 @@ void PlayState::Clean()
 	delete m_pMap;
 
 	Factory::getInstance()->DestoryNavPlayer();
+
+	Factory::getInstance()->DestroyBox();
 
 	std::cout << "PlayState Clean Successful" << std::endl;
 }

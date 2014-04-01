@@ -36,6 +36,8 @@ public:
 	float GetVelocityY();
 	void SetVelocity(float x, float y);
 
+	void Move(float dt);
+
 	Vector3& GetPosition();
 	float GetHalfWidth() { return m_halfWidth; }
 	float GetHalfHeight() { return m_halfHeight; }

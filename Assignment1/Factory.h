@@ -27,6 +27,10 @@ public:
 	void DestoryNavPlayer();
 	NavPlayer *GetNavPlayer();
 
+	void CreateBox();
+	void DestroyBox();
+	GameObject *GetBox();
+
 	void CleanUp();
 	void Terminate();
 
@@ -37,6 +41,8 @@ private:
 	std::vector<GameObject*> m_deleteBuffer;
 
 	NavPlayer *m_pNavPlayer;
+
+	GameObject *m_box;
 };
 
 #endif
