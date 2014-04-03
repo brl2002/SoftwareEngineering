@@ -19,11 +19,12 @@ void PlayState::Init()
 	//GameObjects.push_back(player);
 	//GameObjects.push_back(go);
 
-	m_pMap = new Map();
-	m_pMap->Load(GameInst::Instance()->GetTextureResource(), "../res/maps/map.tmx");
-
+	
 	Factory::getInstance()->CreateNavPlayer();
 	m_pNavPlayer = Factory::getInstance()->GetNavPlayer();
+
+	m_pMap = new Map(m_pNavPlayer);
+	m_pMap->Load(GameInst::Instance()->GetTextureResource(), "../res/maps/map.tmx");
 
 	Physics2D::getInstance().ToggleDebug();
 }
@@ -49,6 +50,18 @@ void PlayState::HandleEvents(const SDL_Event &e)
 		case SDL_KEYDOWN:
 			switch(e.key.keysym.sym)
 			{
+			case SDLK_d:
+				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX() + 1, m_pNavPlayer->GetTileY());
+				break;
+			case SDLK_a:
+				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX() - 1, m_pNavPlayer->GetTileY());
+				break;
+			case SDLK_w:
+				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() - 1);
+				break;
+			case SDLK_s:
+				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() + 1);
+				break;
 			case SDLK_ESCAPE:
 				GameInst::Instance()->Quit();
 				break;
@@ -61,22 +74,21 @@ void PlayState::HandleEvents(const SDL_Event &e)
 
 void PlayState::HandleKeyInput(const Uint8 *keyState)
 {
-	if (keyState[SDL_SCANCODE_D])
-		m_pNavPlayer->SetVelocity(100, m_pNavPlayer->GetVelocityY());
+	/*if (keyState[SDL_SCANCODE_D])
+		
 	else if (keyState[SDL_SCANCODE_A])
-		m_pNavPlayer->SetVelocity(-100, m_pNavPlayer->GetVelocityY());
+		
 
 	if (keyState[SDL_SCANCODE_W])
-		m_pNavPlayer->SetVelocity(m_pNavPlayer->GetVelocityX(), -100);
+		
 	else if (keyState[SDL_SCANCODE_S])
-		m_pNavPlayer->SetVelocity(m_pNavPlayer->GetVelocityX(), 100);
+		m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() + 1);*/
 }
 
 void PlayState::Update(float deltaTime)
 {
 	m_pMap->Update(deltaTime);
 	m_pNavPlayer->Update(deltaTime);
-	m_pNavPlayer->Move(deltaTime);
 
 	Physics2D::getInstance().Update();
 }
@@ -90,8 +102,6 @@ void PlayState::Draw()
 	m_pMap->DrawForeground();
 
 	Physics2D::getInstance().DebugDraw();
-
-	m_pNavPlayer->SetVelocity(0, 0);
 }
 
 void PlayState::PostUpdate()

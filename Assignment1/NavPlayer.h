@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "XMLTranscoder.h"
+#include "Map.h"
 
 class GameObject;
 class XMLTranscoder;
@@ -18,19 +19,15 @@ public:
 
 	void Draw();
 
-	void SetPostion(float x, float y);
+	void SetTile(int x, int y);
 
-	float GetVelocityX() { return m_vx; }
-
-	float GetVelocityY() { return m_vy; }
-
-	void SetVelocity(float x, float y);
-
-	void Move(float dt);
+	float GetTileX() { return m_x; }
+	float GetTileY() { return m_y; }
 
 private:
 	XMLTranscoder *transcoder;
-	float m_vx, m_vy;
+	
+	int m_x, m_y;
 };
 
 #endif

@@ -1,6 +1,14 @@
 #include "Map.h"
 #include <iostream>
 
+int Map::m_tileHeight = 0;
+int Map::m_tileWidth = 0;
+
+Map::Map(NavPlayer *player)
+{
+	m_pNavPlayer = player;
+}
+
 void Map::Load(TextureResource *textureResource, char* filename)
 {
 	TMXParser parser(filename);
@@ -12,8 +20,8 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 	m_sprite->BindTexture(GameInst::Instance()->GetTextureResource(), textureIndex);
 
-	int tileWidth = parser.getTileWidth();
-	int tileHeight = parser.getTileHeight();
+	Map::m_tileWidth = parser.getTileWidth();
+	Map::m_tileHeight = parser.getTileHeight();
 
 	m_width = parser.getWidth();
 	m_height = parser.getHeight();
@@ -37,7 +45,7 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 				if (r != nullptr)
 				{
-					tile = new Tile(x * tileWidth, y * tileHeight, m_sprite, *r);
+					tile = new Tile(x * m_tileWidth, y * m_tileHeight, m_sprite, *r);
 				}
 
 				tiles[x].push_back(tile);
@@ -50,7 +58,19 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 void Map::Update(float deltaTime)
 {
-
+	std::cout << m_pNavPlayer->GetPosition().x << std::endl;
+	for (int l = 0; l < m_numLayers; l++)
+	{
+		for (int x = 0; x < m_width; x++)
+		{
+			for (int y = 0; y < m_height; y++)
+			{
+				//if (m_map[l][x][y] != nullptr)
+					//m_map[l][x][y]->setOffset(-m_pNavPlayer->GetPosition().x, 
+						//					  -m_pNavPlayer->GetPosition().y);
+			}
+		}
+	}
 }
 
 void Map::DrawBackground()

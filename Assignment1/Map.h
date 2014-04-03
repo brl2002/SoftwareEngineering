@@ -4,11 +4,14 @@
 #include "GameObject.h"
 #include "TMXParser.h"
 #include "Tile.h"
+#include "NavPlayer.h"
+
+class NavPlayer;
 
 class Map : public GameObject
 {
 public:
-	Map() {}
+	Map(NavPlayer *player);
 	~Map() {}
 
 	void Load(TextureResource *textureResource, char* filename);
@@ -17,12 +20,19 @@ public:
 	void DrawForeground();
 	void Clean();
 
+	static int GetTileWidth() { return m_tileWidth; }
+	static int GetTileHeight() { return m_tileWidth; }
+
 private:
 	int m_width;
 	int m_height;
 	int m_numLayers;
 
+	static int m_tileWidth, m_tileHeight;
+
 	int m_boundTextureIndex;
+
+	NavPlayer* m_pNavPlayer;
 
 	typedef std::vector<std::vector<Tile*>> TilesArray;
 	std::vector<TilesArray> m_map;

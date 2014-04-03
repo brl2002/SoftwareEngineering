@@ -1,6 +1,6 @@
 #include "NavPlayer.h"
 
-NavPlayer::NavPlayer() : GameObject(), m_vx(0), m_vy(0)
+NavPlayer::NavPlayer() : GameObject(), m_x(0), m_y(0)
 {
 	m_sprite = new Sprite();
 
@@ -21,22 +21,20 @@ NavPlayer::~NavPlayer()
 
 void NavPlayer::Update(float deltaTime)
 {
+	std::cout << m_x << std::endl;
 	m_sprite->Animate(deltaTime);
 }
 
 void NavPlayer::Draw()
 {
-	m_sprite->Draw(m_position.x-m_halfWidth, m_position.y-m_halfHeight, m_halfWidth*2, m_halfHeight*2);
+	m_sprite->Draw(m_position.x, m_position.y, m_halfWidth*2, m_halfHeight*2);
 }
 
-void NavPlayer::SetVelocity(float x, float y)
+void NavPlayer::SetTile(int x, int y)
 {
-	m_vx = x;
-	m_vy = y;
-}
+	m_x = x;
+	m_y = y;
 
-void NavPlayer::Move(float dt)
-{
-	m_position.x += m_vx * dt;
-	m_position.y += m_vy * dt;
+	m_position.x = m_x * Map::GetTileWidth();
+	m_position.y = m_y * Map::GetTileHeight();
 }
