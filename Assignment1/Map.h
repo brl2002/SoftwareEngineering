@@ -20,13 +20,31 @@ public:
 	void DrawForeground();
 	void Clean();
 
+	void Move(int x, int y);
+
 	static int GetTileWidth() { return m_tileWidth; }
 	static int GetTileHeight() { return m_tileWidth; }
 
+	int GetWidth() { return m_width; }
+	int GetHeight() { return m_height; }
+
+	bool GetXMoving() { return m_xMoving; }
+	bool GetYMoving() { return m_yMoving; }
+
 private:
+	SDL_Rect ClampViewport(SDL_Rect small, SDL_Rect large);
+
 	int m_width;
 	int m_height;
 	int m_numLayers;
+
+	int m_tilesVisibleX, m_tilesVisibleY;
+	int m_midX, m_midY;
+
+	SDL_Rect m_viewport;
+	SDL_Rect m_mapEdges;
+
+	bool m_xMoving, m_yMoving;
 
 	static int m_tileWidth, m_tileHeight;
 

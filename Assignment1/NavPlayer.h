@@ -5,8 +5,7 @@
 #include "XMLTranscoder.h"
 #include "Map.h"
 
-class GameObject;
-class XMLTranscoder;
+class Map;
 
 class NavPlayer : public GameObject
 {
@@ -19,7 +18,7 @@ public:
 
 	void Draw();
 
-	void SetTile(int x, int y);
+	void Move(int x, int y, Map* map);
 
 	float GetTileX() { return m_x; }
 	float GetTileY() { return m_y; }

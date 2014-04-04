@@ -28,6 +28,17 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 	m_numLayers = parser.getNumLayers();
 
+	m_tilesVisibleX = (GameInst::Instance()->GetScreenWidth()) / m_tileWidth;
+	m_tilesVisibleY = (GameInst::Instance()->GetScreenHeight() + m_tileHeight) / m_tileHeight;
+
+	m_midX = m_tilesVisibleX / 2;
+	m_midY = m_tilesVisibleY / 2;
+
+	m_mapEdges.x = 0;
+	m_mapEdges.y = 0;
+	m_mapEdges.w = m_width;
+	m_mapEdges.h = m_height;
+
 	int i = 0;
 
 	for (int l = 0; l < m_numLayers; l++)
@@ -45,7 +56,7 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 				if (r != nullptr)
 				{
-					tile = new Tile(x * m_tileWidth, y * m_tileHeight, m_sprite, *r);
+					tile = new Tile(x, y, m_sprite, *r);
 				}
 
 				tiles[x].push_back(tile);
@@ -54,49 +65,83 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 		m_map.push_back(tiles);
 	}
+
+	Move(0, 0);
 } 
+
+void Map::Move(int x, int y)
+{
+	m_viewport.x = m_pNavPlayer->GetTileX() - m_midX;
+	m_viewport.y = m_pNavPlayer->GetTileY() - m_midY;
+	m_viewport.w = m_tilesVisibleX;
+	m_viewport.h = m_tilesVisibleY;
+
+	SDL_Rect nextView = {
+		m_viewport.x + x,
+		m_viewport.y + y,
+		m_viewport.w,
+		m_viewport.h
+	};
+
+	SDL_Rect clamped = ClampViewport(m_viewport, m_mapEdges);
+	SDL_Rect nextClamped = ClampViewport(nextView, m_mapEdges);
+
+	if (clamped.x == m_viewport.x && nextView.x == nextClamped.x)
+		m_xMoving = true;
+	else
+		m_xMoving = false;
+
+	if (clamped.y == m_viewport.y  && nextView.y == nextClamped.y)
+		m_yMoving = true;
+	else
+		m_yMoving = false;
+
+	if (m_xMoving || m_yMoving)
+		m_viewport = nextClamped;
+	else
+		m_viewport = clamped;
+}
 
 void Map::Update(float deltaTime)
 {
-	std::cout << m_pNavPlayer->GetPosition().x << std::endl;
-	for (int l = 0; l < m_numLayers; l++)
-	{
-		for (int x = 0; x < m_width; x++)
-		{
-			for (int y = 0; y < m_height; y++)
-			{
-				//if (m_map[l][x][y] != nullptr)
-					//m_map[l][x][y]->setOffset(-m_pNavPlayer->GetPosition().x, 
-						//					  -m_pNavPlayer->GetPosition().y);
-			}
-		}
-	}
+	//m_xMoving = false;
+	//m_yMoving = false;
 }
 
 void Map::DrawBackground()
 {
 	for (int l = 0; l < m_numLayers - 1; l++)
 	{
-		for (int x = 0; x < m_width; x++)
+		int _x = 0;
+		for (int x = m_viewport.x; x < m_viewport.x + m_viewport.w; x++)
 		{
-			for (int y = 0; y < m_height; y++)
+			int _y = 0;
+			for (int y = m_viewport.y; y < m_viewport.y + m_viewport.h; y++)
 			{
 				if (m_map[l][x][y] != nullptr)
-					m_map[l][x][y]->Draw();
+					m_map[l][x][y]->Draw(_x * m_tileWidth, _y * m_tileHeight);
+
+				_y++;
 			}
+			_x++;
 		}
 	}
 }
 
 void Map::DrawForeground()
 {
-	for (int x = 0; x < m_width; x++)
+	int _x = 0;
+	for (int x = m_viewport.x; x < m_viewport.x + m_viewport.w; x++)
 	{
-		for (int y = 0; y < m_height; y++)
+		int _y = 0;
+		for (int y = m_viewport.y; y < m_viewport.y + m_viewport.h; y++)
 		{
 			if (m_map[m_numLayers - 1][x][y] != nullptr)
-				m_map[m_numLayers - 1][x][y]->Draw();
+				m_map[m_numLayers - 1][x][y]->Draw(_x * m_tileWidth, _y * m_tileHeight);
+
+			_y++;
 		}
+		_x++;
 	}
 }
 
@@ -118,4 +163,35 @@ void Map::Clean()
 			}
 		}
 	}
+}
+
+SDL_Rect Map::ClampViewport(SDL_Rect small, SDL_Rect large)
+{
+	SDL_Rect newRect;
+
+	newRect.x = small.x;
+	newRect.y = small.y;
+
+	if (small.x < large.x)
+	{
+		newRect.x = large.x;
+	}
+	else if (small.x + small.w > large.x + large.w)
+	{
+		newRect.x = large.x + large.w - small.w;
+	}
+
+	if (small.y < large.y)
+	{
+		newRect.y = large.y;
+	}
+	else if (small.y + small.h > large.y + large.h)
+	{
+		newRect.y = large.y + large.h - small.h;
+	}
+
+	newRect.w = small.w;
+	newRect.h = small.h;
+
+	return newRect;
 }

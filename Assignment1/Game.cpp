@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "PlayState.h"
+#include "NavState.h"
 #include "GameState.h"
 #include "Windows.h"
 #include <iostream>
@@ -67,7 +67,7 @@ void Game::LoadGame()
 {
 	SDL_Event e;
 
-	ChangeState(PlayState::Instance());
+	ChangeState(NavState::Instance());
 
 	// game loop implementation
 	unsigned int currentTime, prevTime = 0;

@@ -1,5 +1,5 @@
-#ifndef PLAY_STATE_H
-#define PLAY_STATE_H
+#ifndef NAV_STATE_H
+#define NAV_STATE_H
 
 #include "SDL.h"
 #include "GameObject.h"
@@ -11,7 +11,7 @@
 #include "Physics2D.h"
 #include <vector>
 
-class PlayState : public GameState
+class NavState : public GameState
 {
 public:
 	void Init();
@@ -27,16 +27,16 @@ public:
 	void PostUpdate();
 
 	// Implement Singleton Pattern
-	static PlayState* Instance()
+	static NavState* Instance()
 	{
 		return &m_PlayState;
 	}
 
 protected:
-	PlayState() {}
+	NavState() {}
 
 private:
-	static PlayState m_PlayState;
+	static NavState m_PlayState;
 
 	Map* m_pMap;
 	NavPlayer* m_pNavPlayer;

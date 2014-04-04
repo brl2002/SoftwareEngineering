@@ -21,7 +21,6 @@ NavPlayer::~NavPlayer()
 
 void NavPlayer::Update(float deltaTime)
 {
-	std::cout << m_x << std::endl;
 	m_sprite->Animate(deltaTime);
 }
 
@@ -30,11 +29,26 @@ void NavPlayer::Draw()
 	m_sprite->Draw(m_position.x, m_position.y, m_halfWidth*2, m_halfHeight*2);
 }
 
-void NavPlayer::SetTile(int x, int y)
+void NavPlayer::Move(int x, int y, Map* map)
 {
-	m_x = x;
-	m_y = y;
+	
+	if (m_x + x >= 0 && m_x + x < map->GetWidth())
+	{
+		m_x += x;
 
-	m_position.x = m_x * Map::GetTileWidth();
-	m_position.y = m_y * Map::GetTileHeight();
+		if (!map->GetXMoving())
+			m_position.x += x * Map::GetTileWidth();
+	}
+	if (m_y + y >= 0 && m_y + y < map->GetHeight())
+	{
+		m_y += y;
+
+		if (!map->GetYMoving())
+			m_position.y += y * Map::GetTileHeight();
+	}
+
+	std::cout << "PLAYERX: " << m_x << std::endl;
+	std::cout << "MAPWIDTH: " << map->GetWidth() << std::endl;
+	std::cout << std::endl;
+
 }

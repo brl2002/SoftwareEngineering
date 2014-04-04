@@ -2,13 +2,13 @@
 
 #include "SDL.h"
 #include "Game.h"
-#include "PlayState.h"
+#include "NavState.h"
 #include "PauseState.h"
 #include "TMXParser.h"
 
-PlayState PlayState::m_PlayState;
+NavState NavState::m_PlayState;
 
-void PlayState::Init()
+void NavState::Init()
 {
 	//player = new Player();
 	//player->Load("../res/background.png");	// load image for game object
@@ -26,20 +26,23 @@ void PlayState::Init()
 	m_pMap = new Map(m_pNavPlayer);
 	m_pMap->Load(GameInst::Instance()->GetTextureResource(), "../res/maps/map.tmx");
 
+	//m_pMap->Move(12, 0);
+//	m_pNavPlayer->Move(12, 0, m_pMap);
+
 	Physics2D::getInstance().ToggleDebug();
 }
 
-void PlayState::Pause()
+void NavState::Pause()
 {
 	std::cout << "PlayState Paused" << std::endl;
 }
 
-void PlayState::Resume()
+void NavState::Resume()
 {
 	std::cout << "PlayState Resumed" << std::endl;
 }
 
-void PlayState::HandleEvents(const SDL_Event &e)
+void NavState::HandleEvents(const SDL_Event &e)
 {
 	switch (e.type)
 	{
@@ -51,16 +54,20 @@ void PlayState::HandleEvents(const SDL_Event &e)
 			switch(e.key.keysym.sym)
 			{
 			case SDLK_d:
-				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX() + 1, m_pNavPlayer->GetTileY());
+				m_pMap->Move(1, 0);
+				m_pNavPlayer->Move(1, 0, m_pMap);
 				break;
 			case SDLK_a:
-				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX() - 1, m_pNavPlayer->GetTileY());
+				m_pMap->Move(-1, 0);
+				m_pNavPlayer->Move(-1, 0, m_pMap);
 				break;
 			case SDLK_w:
-				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() - 1);
+				m_pMap->Move(0, -1);
+				m_pNavPlayer->Move(0, -1, m_pMap);
 				break;
 			case SDLK_s:
-				m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() + 1);
+				m_pMap->Move(0, 1);
+				m_pNavPlayer->Move(0, 1, m_pMap);
 				break;
 			case SDLK_ESCAPE:
 				GameInst::Instance()->Quit();
@@ -72,7 +79,7 @@ void PlayState::HandleEvents(const SDL_Event &e)
 	}
 }
 
-void PlayState::HandleKeyInput(const Uint8 *keyState)
+void NavState::HandleKeyInput(const Uint8 *keyState)
 {
 	/*if (keyState[SDL_SCANCODE_D])
 		
@@ -85,7 +92,7 @@ void PlayState::HandleKeyInput(const Uint8 *keyState)
 		m_pNavPlayer->SetTile(m_pNavPlayer->GetTileX(), m_pNavPlayer->GetTileY() + 1);*/
 }
 
-void PlayState::Update(float deltaTime)
+void NavState::Update(float deltaTime)
 {
 	m_pMap->Update(deltaTime);
 	m_pNavPlayer->Update(deltaTime);
@@ -93,23 +100,23 @@ void PlayState::Update(float deltaTime)
 	Physics2D::getInstance().Update();
 }
 
-void PlayState::Draw()
+void NavState::Draw()
 {
 	m_pMap->DrawBackground();
-
+	 
 	m_pNavPlayer->Draw();
 
-	m_pMap->DrawForeground();
+	//m_pMap->DrawForeground();
 
 	Physics2D::getInstance().DebugDraw();
 }
 
-void PlayState::PostUpdate()
+void NavState::PostUpdate()
 {
 
 }
 
-void PlayState::Clean()
+void NavState::Clean()
 {
 	m_pMap->Clean();
 	delete m_pMap;

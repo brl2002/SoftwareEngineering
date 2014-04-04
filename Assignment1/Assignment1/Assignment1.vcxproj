@@ -92,7 +92,7 @@
     <ClCompile Include="..\PauseState.cpp" />
     <ClCompile Include="..\Physics2D.cpp" />
     <ClCompile Include="..\Player.cpp" />
-    <ClCompile Include="..\PlayState.cpp" />
+    <ClCompile Include="..\NavState.cpp" />
     <ClCompile Include="..\Sprite.cpp" />
     <ClCompile Include="..\Subject.cpp" />
     <ClCompile Include="..\TextureResource.cpp" />
@@ -120,7 +120,7 @@
     <ClInclude Include="..\PauseState.h" />
     <ClInclude Include="..\Physics2D.h" />
     <ClInclude Include="..\Player.h" />
-    <ClInclude Include="..\PlayState.h" />
+    <ClInclude Include="..\NavState.h" />
     <ClInclude Include="..\Error.h" />
     <ClInclude Include="..\Singleton.h" />
     <ClInclude Include="..\Sprite.h" />

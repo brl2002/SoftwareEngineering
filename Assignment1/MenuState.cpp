@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "Game.h"
 #include "MenuState.h"
-#include "PlayState.h"
+#include "NavState.h"
 
 MenuState MenuState::m_MenuState;
 
@@ -39,7 +39,7 @@ void MenuState::HandleEvents(const SDL_Event &e)
 			switch(e.key.keysym.sym)
 			{
 				case SDLK_SPACE:
-					GameInst::Instance()->ChangeState(PlayState::Instance());
+					GameInst::Instance()->ChangeState(NavState::Instance());
 					break;
 			}
 	}
