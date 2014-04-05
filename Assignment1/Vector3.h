@@ -16,6 +16,11 @@ public:
 	Vector3& operator=(const Vector3& other);
 	Vector3& operator+(const Vector3& other);
 	Vector3& operator-(const Vector3& other);
+	Vector3& operator*(const float& other);
+	bool operator==(const Vector3& other) const;
+	bool operator!=(const Vector3& other) const;
+	
+	static Vector3 lerp(Vector3 start, Vector3 end, float percent);
 };
 
 #endif

@@ -31,6 +31,8 @@ public:
 	bool GetXMoving() { return m_xMoving; }
 	bool GetYMoving() { return m_yMoving; }
 
+	bool CanMoveHere(int x, int y);
+
 private:
 	SDL_Rect ClampViewport(SDL_Rect small, SDL_Rect large);
 
@@ -43,8 +45,12 @@ private:
 
 	SDL_Rect m_viewport;
 	SDL_Rect m_mapEdges;
+	std::vector<SDL_Rect> m_blocked;
 
 	bool m_xMoving, m_yMoving;
+	Vector3 m_destination;
+	Vector3 m_previous;
+	float m_time;
 
 	static int m_tileWidth, m_tileHeight;
 

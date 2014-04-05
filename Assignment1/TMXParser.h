@@ -24,6 +24,7 @@ public:
 	int getNumLayers() { return m_numLayers; }
 
 	SDL_Rect* getRect(int x, int y, int layer);
+	std::vector<SDL_Rect> getBlocked() { return m_blocked; }
 
 private:
 	void ParseXML(const char* filename);
@@ -42,6 +43,9 @@ private:
 	// Array of gids
 	std::vector<SDL_Rect> m_rects;
 	std::vector<std::vector<int>> m_layers;
+
+	// Blocked areas
+	std::vector<SDL_Rect> m_blocked;
 
 	// Width and height of source image
 	int m_imageWidth;

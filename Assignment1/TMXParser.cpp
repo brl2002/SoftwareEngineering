@@ -72,6 +72,26 @@ void TMXParser::ParseXML(const char* filename)
 		m_layers.push_back(gids);
 	}	
 
+	// Loop through blocked areas
+	for (elem = root->FirstChildElement("objectgroup"); elem != nullptr; elem = elem->NextSiblingElement("objectgroup"))
+	{
+		if (strcmp(elem->Attribute("name"), "blocking") == 0)
+		{
+			tinyxml2::XMLElement* child;
+			for (child = elem->FirstChildElement("object"); child != nullptr; child = child->NextSiblingElement("object"))
+			{
+				SDL_Rect rect = {
+					atoi(child->Attribute("x")) / m_tileWidth,
+					atoi(child->Attribute("y")) / m_tileHeight,
+					atoi(child->Attribute("width")) / m_tileWidth,
+					atoi(child->Attribute("height")) / m_tileHeight
+				};
+
+				m_blocked.push_back(rect);
+			}
+		}
+	}
+
 	doc.Clear();
 }
 

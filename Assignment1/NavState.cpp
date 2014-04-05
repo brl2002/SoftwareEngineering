@@ -10,26 +10,13 @@ NavState NavState::m_PlayState;
 
 void NavState::Init()
 {
-	//player = new Player();
-	//player->Load("../res/background.png");	// load image for game object
-
-	//go = new GameObject();
-	//go->Load("../res/image.png");
-
-	//GameObjects.push_back(player);
-	//GameObjects.push_back(go);
-
-	
 	Factory::getInstance()->CreateNavPlayer();
 	m_pNavPlayer = Factory::getInstance()->GetNavPlayer();
 
 	m_pMap = new Map(m_pNavPlayer);
 	m_pMap->Load(GameInst::Instance()->GetTextureResource(), "../res/maps/map.tmx");
 
-	//m_pMap->Move(12, 0);
-//	m_pNavPlayer->Move(12, 0, m_pMap);
-
-	Physics2D::getInstance().ToggleDebug();
+	//Physics2D::getInstance().ToggleDebug();
 }
 
 void NavState::Pause()
@@ -54,19 +41,15 @@ void NavState::HandleEvents(const SDL_Event &e)
 			switch(e.key.keysym.sym)
 			{
 			case SDLK_d:
-				m_pMap->Move(1, 0);
 				m_pNavPlayer->Move(1, 0, m_pMap);
 				break;
 			case SDLK_a:
-				m_pMap->Move(-1, 0);
 				m_pNavPlayer->Move(-1, 0, m_pMap);
 				break;
 			case SDLK_w:
-				m_pMap->Move(0, -1);
 				m_pNavPlayer->Move(0, -1, m_pMap);
 				break;
 			case SDLK_s:
-				m_pMap->Move(0, 1);
 				m_pNavPlayer->Move(0, 1, m_pMap);
 				break;
 			case SDLK_ESCAPE:
@@ -106,7 +89,7 @@ void NavState::Draw()
 	 
 	m_pNavPlayer->Draw();
 
-	//m_pMap->DrawForeground();
+	m_pMap->DrawForeground();
 
 	Physics2D::getInstance().DebugDraw();
 }

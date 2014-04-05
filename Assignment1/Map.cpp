@@ -66,6 +66,8 @@ void Map::Load(TextureResource *textureResource, char* filename)
 		m_map.push_back(tiles);
 	}
 
+	m_blocked = parser.getBlocked();
+
 	Move(0, 0);
 } 
 
@@ -104,8 +106,17 @@ void Map::Move(int x, int y)
 
 void Map::Update(float deltaTime)
 {
-	//m_xMoving = false;
-	//m_yMoving = false;
+	if (m_position != m_destination)
+	{
+		m_position = Vector3::lerp(m_previous, m_destination, m_time);
+		m_time += deltaTime * m_pNavPlayer->GetMoveSpeed();
+
+		if (m_time >= 1)
+		{
+			m_position = m_destination;
+			m_time = 0;
+		}
+	}
 }
 
 void Map::DrawBackground()
@@ -194,4 +205,15 @@ SDL_Rect Map::ClampViewport(SDL_Rect small, SDL_Rect large)
 	newRect.h = small.h;
 
 	return newRect;
+}
+
+bool Map::CanMoveHere(int x, int y)
+{
+	for (auto i = m_blocked.begin(); i != m_blocked.end(); i++)
+	{
+		if ((x >= i->x && x < i->x + i->w) && (y >= i->y && y < i->y + i->h))
+			return false;
+	}
+
+	return true;
 }
