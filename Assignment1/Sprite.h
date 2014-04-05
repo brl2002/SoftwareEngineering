@@ -23,7 +23,7 @@ public:
 
 	void BindTranscoder(XMLTranscoder *transcoder);
 
-	FrameRect* GetCurrentFrame() const;
+	FrameRect GetCurrentFrame() const;
 
 	void Play(int animIndex);
 

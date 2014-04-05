@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <iostream>
 
-Sprite::Sprite() : m_texture(NULL), m_currentAnimTime(0)
+Sprite::Sprite() : m_texture(NULL), m_currentAnimTime(0), m_transcoder(NULL)
 {
 	// Load image at specified path
 	//SDL_Surface* loadedSurface = IMG_Load(pfile);
@@ -45,17 +45,17 @@ bool Sprite::Draw(int x, int y)
 	} 
 	
 	SDL_Rect src;
-	src.x = GetCurrentFrame()->x;
-	src.y = GetCurrentFrame()->y;
-	src.w = GetCurrentFrame()->w;
-	src.h = GetCurrentFrame()->h;
+	src.x = GetCurrentFrame().x;
+	src.y = GetCurrentFrame().y;
+	src.w = GetCurrentFrame().w;
+	src.h = GetCurrentFrame().h;
 
 	SDL_Rect dst;
 
 	dst.x = x;
 	dst.y = y;
-	dst.w = GetCurrentFrame()->w;
-	dst.h = GetCurrentFrame()->h;
+	dst.w = GetCurrentFrame().w;
+	dst.h = GetCurrentFrame().h;
 
 	SDL_RenderCopy(GameInst::Instance()->GetRenderer(), m_texture, &src, &dst);
 
@@ -70,10 +70,10 @@ bool Sprite::Draw(int x, int y, int width, int height)
 	}
 
 	SDL_Rect src;
-	src.x = GetCurrentFrame()->x;
-	src.y = GetCurrentFrame()->y;
-	src.w = GetCurrentFrame()->w;
-	src.h = GetCurrentFrame()->h;
+	src.x = GetCurrentFrame().x;
+	src.y = GetCurrentFrame().y;
+	src.w = GetCurrentFrame().w;
+	src.h = GetCurrentFrame().h;
 
 	SDL_Rect dst;
 	dst.x = x;
@@ -110,9 +110,16 @@ void Sprite::BindTranscoder(XMLTranscoder *transcoder)
 	m_transcoder = transcoder;
 }
 
-FrameRect* Sprite::GetCurrentFrame() const
+FrameRect Sprite::GetCurrentFrame() const
 {
-	return m_transcoder->GetAnimation(m_animNum)->GetFrame(m_frameNum);
+	if (m_transcoder)
+	{
+		return *m_transcoder->GetAnimation(m_animNum)->GetFrame(m_frameNum);
+	}
+
+	int w, h;
+	SDL_QueryTexture(m_texture,NULL, NULL, &w, &h);
+	return FrameRect(0, 0, w, h);
 }
 
 void Sprite::Play(int animIndex)

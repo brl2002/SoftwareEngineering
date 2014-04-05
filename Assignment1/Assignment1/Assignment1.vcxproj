@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Animation.cpp" />
+    <ClCompile Include="..\BattleState.cpp" />
     <ClCompile Include="..\Collider.cpp" />
     <ClCompile Include="..\EventHandler.cpp" />
     <ClCompile Include="..\Factory.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Animation.h" />
+    <ClInclude Include="..\BattleState.h" />
     <ClInclude Include="..\Collider.h" />
     <ClInclude Include="..\Component.h" />
     <ClInclude Include="..\EventHandler.h" />
