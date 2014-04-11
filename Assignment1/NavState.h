@@ -4,7 +4,6 @@
 #include "SDL.h"
 #include "GameObject.h"
 #include "GameState.h"
-#include "Player.h"
 #include "Map.h"
 #include "NavPlayer.h"
 #include "Factory.h"
@@ -24,6 +23,7 @@ public:
 	void HandleKeyInput(const Uint8 *keyState);
 	void Update(float deltaTime);
 	void Draw();
+	void DrawGUI();
 	void PostUpdate();
 
 	// Implement Singleton Pattern

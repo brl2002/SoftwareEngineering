@@ -2,6 +2,8 @@
 #define GAMESTATE_H
 
 #include "Game.h"
+#include "GUIComponent.h"
+#include <vector>
 
 class GameState
 {
@@ -18,6 +20,7 @@ public:
 
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
+	virtual void DrawGUI() = 0;
 	virtual void PostUpdate() = 0;
 
 	void ChangeState(GameState* state)

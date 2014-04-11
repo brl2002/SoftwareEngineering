@@ -2,29 +2,9 @@
 #include "Game.h"
 #include <iostream>
 
-Sprite::Sprite() : m_texture(NULL), m_currentAnimTime(0), m_transcoder(NULL)
+Sprite::Sprite() : m_texture(NULL), m_currentAnimTime(0), m_transcoder(NULL), m_animate(false)
 {
-	// Load image at specified path
-	//SDL_Surface* loadedSurface = IMG_Load(pfile);
 
-	//if (loadedSurface == NULL)
-	//{
-	//	Error::log(std::cout, "IMG_Load");
-	//	exit(EXIT_FAILURE);
-	//}
-	//else
-	//{
-	//	// Convert surface to screen format
-	//	m_texture = SDL_CreateTextureFromSurface(GameInst::Instance()->GetRenderer(), loadedSurface);
-	//	if (m_texture == nullptr)
-	//	{
-	//		Error::log(std::cout, "CreateTextureFromSurface");
-	//		exit(EXIT_FAILURE);
-	//	}
-
-	//	// Get rid of old loaded surface
-	//	SDL_FreeSurface(loadedSurface);
-	//}
 }
 
 Sprite::~Sprite()
@@ -135,23 +115,26 @@ void Sprite::Play(int animIndex)
 
 void Sprite::Animate(float dt)
 {
-	if (m_currentAnimTime >= m_animSpeed)
+	if (m_animate)
 	{
-		m_frameNum++;
-
-		if (m_frameNum >= m_transcoder->GetAnimation(m_animNum)->TotalFrames())
+		if (m_currentAnimTime >= m_animSpeed)
 		{
-			m_frameNum = 0;
+			m_frameNum++;
+
+			if (m_frameNum >= m_transcoder->GetAnimation(m_animNum)->TotalFrames())
+			{
+				m_frameNum = 0;
+			}
+			/*else if (m_frameNum < 0)
+			{
+				m_frameNum = m_transcoder->GetAnimation(m_animNum)->TotalFrames() - 1;
+			}*/
+
+			m_currentAnimTime = 0;
 		}
-		/*else if (m_frameNum < 0)
-		{
-			m_frameNum = m_transcoder->GetAnimation(m_animNum)->TotalFrames() - 1;
-		}*/
 
-		m_currentAnimTime = 0;
+		m_currentAnimTime += dt;
 	}
-
-	m_currentAnimTime += dt;
 }
 
 bool Sprite::IsAnimating()
@@ -162,4 +145,9 @@ bool Sprite::IsAnimating()
 void Sprite::SetAnimSpeed(float speed)
 {
 	m_animSpeed = speed;
+}
+
+void Sprite::Stop()
+{
+	m_animate = false;
 }

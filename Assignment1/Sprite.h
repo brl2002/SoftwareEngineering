@@ -27,6 +27,8 @@ public:
 
 	void Play(int animIndex);
 
+	void Stop();
+
 	void Animate(float dt);
 
 	bool IsAnimating();

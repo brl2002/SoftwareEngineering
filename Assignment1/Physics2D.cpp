@@ -88,7 +88,6 @@ void Physics2D::DebugDraw()
 
 					SDL_SetRenderDrawColor(GameInst::Instance()->GetRenderer(), 120, 110, 150, 255);
 					SDL_RenderDrawRect(GameInst::Instance()->GetRenderer(), &rect);
-					SDL_RenderDrawPoint(GameInst::Instance()->GetRenderer(), x, y);
 				}
 			}
 		}

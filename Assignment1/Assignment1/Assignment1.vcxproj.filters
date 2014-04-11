@@ -61,6 +61,12 @@
     <Filter Include="Header Files\Rendering">
       <UniqueIdentifier>{1521d71b-9721-44ba-a8ae-47d382dcac3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{ecb54950-d089-4530-8479-5b46a3129472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{292b5968-871b-43ad-ac6a-60fa3cb021ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp">
@@ -74,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="..\PauseState.cpp">
       <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Player.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Subject.cpp">
       <Filter>Source Files\Events</Filter>
@@ -132,6 +135,45 @@
     <ClCompile Include="..\BattleState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="..\GUIFont.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUIComponent.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUIBox.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GUIButton.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BlockCommand.cpp">
+      <Filter>Source Files\Additional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HeavyAttackCommand.cpp">
+      <Filter>Source Files\Additional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LightAttackCommand.cpp">
+      <Filter>Source Files\Additional</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Part.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AttributeHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PlayerCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\GameState.h">
@@ -142,9 +184,6 @@
     </ClInclude>
     <ClInclude Include="..\PauseState.h">
       <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Player.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Error.h">
       <Filter>Header Files</Filter>
@@ -220,6 +259,48 @@
     </ClInclude>
     <ClInclude Include="..\BattleState.h">
       <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUIComponent.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUIFont.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUIBox.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GUIButton.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Command.h">
+      <Filter>Header Files\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BlockCommand.h">
+      <Filter>Header Files\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HeavyAttackCommand.h">
+      <Filter>Header Files\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LightAttackCommand.h">
+      <Filter>Header Files\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IAttribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Part.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AttributeHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PlayerCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\IBehaviour.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

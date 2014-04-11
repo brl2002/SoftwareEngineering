@@ -94,6 +94,11 @@ void NavState::Draw()
 	Physics2D::getInstance().DebugDraw();
 }
 
+void NavState::DrawGUI()
+{
+
+}
+
 void NavState::PostUpdate()
 {
 

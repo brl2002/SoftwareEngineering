@@ -43,6 +43,8 @@ public:
 	int GetScreenWidth() { return SCREEN_WIDTH; }
 	int GetScreenHeight() { return SCREEN_HEIGHT; }
 
+	TTF_Font *GetFont() { return m_font; }
+
 private:
 	void LoadGame();
 	float GetTime();
@@ -57,6 +59,8 @@ private:
 	SDL_Window* m_window;
 
 	TextureResource *m_textureResource;
+
+	TTF_Font* m_font;
 
 	int SCREEN_WIDTH;
 	int SCREEN_HEIGHT;

@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "NavState.h"
 #include "GameState.h"
+#include "MenuState.h"
+#include "BattleState.h"
 #include "Windows.h"
 #include <iostream>
 
@@ -55,6 +57,8 @@ void Game::Init(const char* title, int width, int height, bool fullscreen)
 		return;
 	}
 
+	m_font = TTF_OpenFont("../res/fonts/Pokemon GB.ttf", 20);
+
 	m_textureResource = new TextureResource(m_renderer);
 
 	m_bFullscreen = fullscreen;
@@ -67,7 +71,9 @@ void Game::LoadGame()
 {
 	SDL_Event e;
 
-	ChangeState(NavState::Instance());
+	//ChangeState(NavState::Instance());
+
+	ChangeState(BattleState::Instance());
 
 	// game loop implementation
 	unsigned int currentTime, prevTime = 0;
@@ -157,10 +163,13 @@ void Game::Update(float deltaTime)
 
 void Game::Draw()
 {
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
 
 	// let the state draw the screen
 	states.back()->Draw();
+
+	states.back()->DrawGUI();
 
 	SDL_RenderPresent(m_renderer);
 }
