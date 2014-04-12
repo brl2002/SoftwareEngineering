@@ -7,10 +7,14 @@
 class LightAttackCommand : public Command
 {
 public:
-	LightAttackCommand();
+	LightAttackCommand(Character *player, Character *enemy);
 	~LightAttackCommand();
 
 	void Execute();
+
+private:
+	Character *m_player;
+	Character *m_enemy;
 };
 
 #endif

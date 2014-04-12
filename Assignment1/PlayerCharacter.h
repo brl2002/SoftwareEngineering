@@ -9,7 +9,7 @@ public:
 	PlayerCharacter();
 	~PlayerCharacter();
 
-    virtual void Respond(int damage, Character *attacker, Part* attackedPart);
+    virtual void Respond(int damage, IBehaviour *attackerBehaviour, Part* attackedPart);
 
 	virtual void TakeAction(Character *enemy);
 };

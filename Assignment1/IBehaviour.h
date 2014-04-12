@@ -11,7 +11,7 @@ class IBehaviour
 {
 public:
 	virtual ~IBehaviour() {}
-	virtual void TakeAction(Character *attacker, Character *who) = 0;
+	virtual void TakeAction(Character *agent, Character *subject) = 0;
 
 	AttributeHandler* GetAttributeHandler() { return m_attHandler; }
 
@@ -26,7 +26,7 @@ public:
 	HeavyAttack(int strength);
 	~HeavyAttack();
 
-	void TakeAction(Character *attacker, Character *who);
+	void TakeAction(Character *agent, Character *subject);
 };
 
 class LightAttack : public IBehaviour
@@ -35,7 +35,7 @@ public:
 	LightAttack(int strength, int accuracy);
 	~LightAttack();
 
-	void TakeAction(Character *attacker, Character *who);
+	void TakeAction(Character *agent, Character *subject);
 };
 
 class Block : public IBehaviour
@@ -44,7 +44,7 @@ public:
 	Block(int armorValue, int agility);
 	~Block();
 
-	void TakeAction(Character *attacker, Character *who);
+	void TakeAction(Character *agent, Character *subject);
 };
 
 class DamageBehaviour : public IBehaviour
@@ -53,7 +53,7 @@ public:
 	DamageBehaviour(int health);
 	~DamageBehaviour();
 
-	void TakeAction(Character *attacker, Character *who);
+	void TakeAction(Character *agent, Character *subject);
 };
 
 #endif

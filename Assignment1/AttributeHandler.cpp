@@ -2,7 +2,6 @@
 
 AttributeHandler::AttributeHandler() : m_hp(0), m_armor(0), m_acc(0), m_str(0), m_agi(0)
 {
-	
 }
 
 AttributeHandler::~AttributeHandler()

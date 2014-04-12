@@ -16,7 +16,7 @@ HeavyAttack::~HeavyAttack()
 	delete m_attHandler;
 }
 
-void HeavyAttack::TakeAction(Character *attacker, Character *who)
+void HeavyAttack::TakeAction(Character *agent, Character *subject)
 {
 	
 }
@@ -26,7 +26,7 @@ LightAttack::LightAttack(int strength, int accuracy)
 	m_attHandler = new AttributeHandler();
 
 	Strength *str = new Strength();
-	str->SetValue(strength);
+	str->SetValue(strength*0.5f);
 	Accuracy *acc = new Accuracy();
 	acc->SetValue(accuracy);
 	m_attHandler->AddAttribute(str);
@@ -40,7 +40,7 @@ LightAttack::~LightAttack()
 	delete m_attHandler;
 }
 
-void LightAttack::TakeAction(Character *attacker, Character *who)
+void LightAttack::TakeAction(Character *agent, Character *subject)
 {
 
 }
@@ -64,7 +64,7 @@ Block::~Block()
 	delete m_attHandler;
 }
 
-void Block::TakeAction(Character *attacker, Character *who)
+void Block::TakeAction(Character *agent, Character *subject)
 {
 
 }
@@ -85,7 +85,7 @@ DamageBehaviour::~DamageBehaviour()
 	delete m_attHandler;
 }
 
-void DamageBehaviour::TakeAction(Character *attacker, Character *who)
+void DamageBehaviour::TakeAction(Character *agent, Character *subject)
 {
 
 }

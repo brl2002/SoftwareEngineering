@@ -9,6 +9,7 @@ class AttributeHandler
 {
 public:
 	AttributeHandler();
+
 	~AttributeHandler();
 
 	void AddAttribute(IAttribute *attribute);

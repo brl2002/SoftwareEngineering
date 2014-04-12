@@ -16,9 +16,10 @@ class Character
 {
 public:
 	Character();
+
 	virtual ~Character();
 
-    virtual void Respond(int damage, Character *attacker, Part* attackedPart) = 0;
+    virtual void Respond(int damage, IBehaviour *attackerBehaviour, Part* attackedPart) = 0;
 
     virtual void TakeAction(Character *character) = 0;
 
@@ -34,6 +35,8 @@ public:
 	Part* GetEnemyPart() { return m_enemyPart; }
 
 	void AddBehaviour(IBehaviour *behaviour);
+
+	void SwitchBehaviour(int index) { m_behaviourIndex = index; }
 	
 	void SetName(std::string *name) { m_name = *name; }
 	std::string GetName() { return m_name; }

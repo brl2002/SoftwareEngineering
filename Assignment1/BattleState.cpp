@@ -5,9 +5,14 @@ BattleState BattleState::m_BattleState;
 void BattleState::Init()
 {
 	int playerStr = 10;
+	int playerAcc = 6;
+	int playerArmor = 5;
+	int playerAgi = 5;
 	playerCharacter = new PlayerCharacter();
 	playerCharacter->AddPart(new Part(100, "player"));
 	playerCharacter->AddBehaviour(new HeavyAttack(playerStr));
+	playerCharacter->AddBehaviour(new LightAttack(playerStr, playerAcc));
+	playerCharacter->AddBehaviour(new Block(playerArmor, playerAgi));
 
 	enemyCharacter = new PlayerCharacter();
 	enemyCharacter->AddPart(new Part(20, "head"));
@@ -89,10 +94,13 @@ void BattleState::Init()
 	m_GUIComponents.push_back(enemyHealthFont);
 
 	m_playerHeavyAttackCommand = new HeavyAttackCommand(playerCharacter, enemyCharacter);
+	m_playerHeavyAttackCommand->SetBehaviourIndex(0);
 	button1->SetCommand(m_playerHeavyAttackCommand);
-	m_playerLightAttackCommand = new LightAttackCommand();
+	m_playerLightAttackCommand = new LightAttackCommand(playerCharacter, enemyCharacter);
+	m_playerLightAttackCommand->SetBehaviourIndex(1);
 	button2->SetCommand(m_playerLightAttackCommand);
 	m_playerBlockCommand = new BlockCommand();
+	m_playerBlockCommand->SetBehaviourIndex(2);
 	button3->SetCommand(m_playerBlockCommand);
 
 	//Player sprite initialization

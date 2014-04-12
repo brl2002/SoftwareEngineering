@@ -10,10 +10,10 @@ PlayerCharacter::~PlayerCharacter()
 
 }
 
-void PlayerCharacter::Respond(int damage, Character *attacker, Part *attackedPart)
+void PlayerCharacter::Respond(int damage, IBehaviour *attackerBehaviour, Part *attackedPart)
 {
 	AttributeHandler *handler = attackedPart->GetBehaviour()->GetAttributeHandler();
-	int newDmg = handler->ComputeDamage(damage, this->m_behaviours[m_behaviourIndex]->GetAttributeHandler());
+	int newDmg = handler->ComputeDamage(damage, attackerBehaviour->GetAttributeHandler());
 	Health* health = attackedPart->GetBehaviour()->GetAttributeHandler()->GetAttribute<Health*>();
 	int hp = health->GetValue();
 	hp -= newDmg;
@@ -39,5 +39,6 @@ void PlayerCharacter::TakeAction(Character *enemy)
 		damage = str->GetValue() * 2;
 	}
 
-	enemy->Respond(damage, this, enemy->GetCurrentPart(m_enemyPartIndex));
+	this->m_behaviours[m_behaviourIndex]->TakeAction(this, enemy);
+	enemy->Respond(damage, this->m_behaviours[m_behaviourIndex], enemy->GetCurrentPart(m_enemyPartIndex));
 }

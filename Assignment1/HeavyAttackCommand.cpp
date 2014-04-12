@@ -13,6 +13,7 @@ HeavyAttackCommand::~HeavyAttackCommand()
 
 void HeavyAttackCommand::Execute()
 {
+	m_player->SwitchBehaviour(m_behaviourIndex);
 	m_player->TakeAction(m_enemy);
 
 	std::cout << "Attack" << std::endl;
