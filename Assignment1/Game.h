@@ -12,6 +12,7 @@
 #include <iostream>
 
 class GameState;
+class BattleState;
 class TextureResource;
 class Factory;
 class Physics2D;
@@ -25,6 +26,7 @@ public:
 	void Clean();
 
 	void ChangeState(GameState* state);
+	void StartBattleStateInstance();
 	void PushState(GameState* state);
 	void PopState();
 
@@ -67,6 +69,8 @@ private:
 
 	bool m_bRunning;
 	bool m_bFullscreen;
+
+	BattleState *m_battleStateInst;
 };
 typedef Singleton<Game> GameInst; // instance of the game
 

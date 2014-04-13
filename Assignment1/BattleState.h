@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "Sprite.h"
 #include "GameState.h"
+#include "NavState.h"
 #include "GUIFont.h"
 #include "GUIBox.h"
 #include "GUIButton.h"
@@ -16,6 +17,9 @@
 class BattleState : public GameState
 {
 public:
+	BattleState() {}
+	~BattleState() {}
+
 	void Init();
 	void Clean();
 
@@ -29,14 +33,7 @@ public:
 	void DrawGUI();
 	void PostUpdate();
 
-	// Implement Singleton Pattern
-	static BattleState* Instance()
-	{
-		return &m_BattleState;
-	}
-
 protected:
-	BattleState() {}
 
 	std::vector<GUIComponent*> m_GUIComponents;
 

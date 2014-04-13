@@ -56,6 +56,9 @@ void NavState::HandleEvents(const SDL_Event &e)
 				GameInst::Instance()->Quit();
 				break;
 			case SDLK_SPACE:
+				GameInst::Instance()->StartBattleStateInstance();
+				break;
+			case SDLK_p:
 				GameInst::Instance()->PushState(PauseState::Instance());
 				break;
 			}

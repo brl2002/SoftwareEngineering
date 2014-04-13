@@ -156,7 +156,7 @@ void BattleState::HandleEvents(const SDL_Event &e)
 			switch(e.key.keysym.sym)
 			{
 				case SDLK_SPACE:
-
+					GameInst::Instance()->ChangeState(NavState::Instance());
 					break;
 				case SDLK_w:
 					{

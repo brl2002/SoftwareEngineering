@@ -64,6 +64,8 @@ void Game::Init(const char* title, int width, int height, bool fullscreen)
 	m_bFullscreen = fullscreen;
 	m_bRunning = true;
 
+	m_battleStateInst = NULL;
+
 	LoadGame();
 }
 
@@ -71,9 +73,7 @@ void Game::LoadGame()
 {
 	SDL_Event e;
 
-	//ChangeState(NavState::Instance());
-
-	ChangeState(BattleState::Instance());
+	ChangeState(NavState::Instance());
 
 	// game loop implementation
 	unsigned int currentTime, prevTime = 0;
@@ -103,16 +103,32 @@ void Game::LoadGame()
 
 void Game::ChangeState(GameState* state)
 {
-	// clean up the current state
-	if (!states.empty())
+	if (m_battleStateInst)
 	{
-		states.back()->Clean();
-		states.pop_back();
+		m_battleStateInst->Clean();
+		BattleState *temp = m_battleStateInst;
+		m_battleStateInst = NULL;
+		delete temp;
 	}
+	// clean up the current state
+	else
+	{
+		if (!states.empty())
+		{
+			states.back()->Clean();
+			states.pop_back();
+		}
 
-	// store and init the new state
-	states.push_back(state);
-	states.back()->Init();
+		// store and init the new state
+		states.push_back(state);
+		states.back()->Init();
+	}
+}
+
+void Game::StartBattleStateInstance()
+{
+	m_battleStateInst = new BattleState();
+	m_battleStateInst->Init();
 }
 
 void Game::PushState(GameState* state)
@@ -146,17 +162,35 @@ void Game::PopState()
 
 void Game::HandleEvents(const SDL_Event &e)
 {
+	if (m_battleStateInst)
+	{
+		m_battleStateInst->HandleEvents(e);
+		return;
+	}
+
 	// let the state handle events
 	states.back()->HandleEvents(e);
 }
 
 void Game::HandleKeyInput(const Uint8 *keyState)
 {
+	if (m_battleStateInst)
+	{
+		m_battleStateInst->HandleKeyInput(keyState);
+		return;
+	}
+
 	states.back()->HandleKeyInput(keyState);
 }
 
 void Game::Update(float deltaTime)
 {
+	if (m_battleStateInst)
+	{
+		m_battleStateInst->Update(deltaTime);
+		return;
+	}
+
 	// let the state update the game
 	states.back()->Update(deltaTime);
 }
@@ -166,10 +200,17 @@ void Game::Draw()
 	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_renderer);
 
-	// let the state draw the screen
-	states.back()->Draw();
-
-	states.back()->DrawGUI();
+	if (m_battleStateInst)
+	{
+		m_battleStateInst->Draw();
+		m_battleStateInst->DrawGUI();
+	}
+	else
+	{
+		// let the state draw the screen
+		states.back()->Draw();
+		states.back()->DrawGUI();
+	}
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -180,6 +221,12 @@ void Game::Clean()
 	{
 		states.back()->Clean();
 		states.pop_back();
+	}
+
+	if (m_battleStateInst)
+	{
+		m_battleStateInst->Clean();
+		delete m_battleStateInst;
 	}
 
 	m_textureResource->ReleaseTextures();
