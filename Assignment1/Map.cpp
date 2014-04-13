@@ -28,11 +28,11 @@ void Map::Load(TextureResource *textureResource, char* filename)
 
 	m_numLayers = parser.getNumLayers();
 
-	m_tilesVisibleX = (GameInst::Instance()->GetScreenWidth()) / m_tileWidth;
-	m_tilesVisibleY = (GameInst::Instance()->GetScreenHeight() + m_tileHeight) / m_tileHeight;
+	m_tilesVisibleX = (GameInst::Instance()->GetScreenWidth()) / m_tileWidth + 2;
+	m_tilesVisibleY = (GameInst::Instance()->GetScreenHeight() + m_tileHeight) / m_tileHeight + 2;
 
-	m_midX = m_tilesVisibleX / 2;
-	m_midY = m_tilesVisibleY / 2;
+	m_midX = m_tilesVisibleX / 2 - 1;
+	m_midY = m_tilesVisibleY / 2 - 1;
 
 	m_mapEdges.x = 0;
 	m_mapEdges.y = 0;
@@ -67,53 +67,72 @@ void Map::Load(TextureResource *textureResource, char* filename)
 	}
 
 	m_blocked = parser.getBlocked();
+	m_time = 0;
 
 	Move(0, 0);
 } 
 
 void Map::Move(int x, int y)
 {
-	m_viewport.x = m_pNavPlayer->GetTileX() - m_midX;
-	m_viewport.y = m_pNavPlayer->GetTileY() - m_midY;
-	m_viewport.w = m_tilesVisibleX;
-	m_viewport.h = m_tilesVisibleY;
-
-	SDL_Rect nextView = {
-		m_viewport.x + x,
-		m_viewport.y + y,
-		m_viewport.w,
-		m_viewport.h
+	SDL_Rect tempView = {
+		m_pNavPlayer->GetTileX() - m_midX,
+		m_pNavPlayer->GetTileY() - m_midY,
+		m_tilesVisibleX,
+		m_tilesVisibleY
 	};
 
-	SDL_Rect clamped = ClampViewport(m_viewport, m_mapEdges);
+	SDL_Rect nextView = {
+		tempView.x + x,
+		tempView.y + y,
+		tempView.w,
+		tempView.h
+	};
+
+	SDL_Rect clamped = ClampViewport(tempView, m_mapEdges);
 	SDL_Rect nextClamped = ClampViewport(nextView, m_mapEdges);
 
-	if (clamped.x == m_viewport.x && nextView.x == nextClamped.x)
+	if (clamped.x == tempView.x && nextView.x == nextClamped.x)
 		m_xMoving = true;
 	else
 		m_xMoving = false;
 
-	if (clamped.y == m_viewport.y  && nextView.y == nextClamped.y)
+	if (clamped.y == tempView.y  && nextView.y == nextClamped.y)
 		m_yMoving = true;
 	else
 		m_yMoving = false;
 
 	if (m_xMoving || m_yMoving)
-		m_viewport = nextClamped;
+		m_nextViewport = nextClamped;
 	else
 		m_viewport = clamped;
+
+	m_xDir = x;
+	m_yDir = y;
 }
 
 void Map::Update(float deltaTime)
 {
-	if (m_position != m_destination)
+	if (m_xMoving && (m_viewport.x != m_nextViewport.x))
 	{
-		m_position = Vector3::lerp(m_previous, m_destination, m_time);
+		m_offset = Vector3::lerp(Vector3(0,0,0), Vector3(m_tileWidth * m_xDir, 0, 0), m_time);
 		m_time += deltaTime * m_pNavPlayer->GetMoveSpeed();
 
 		if (m_time >= 1)
 		{
-			m_position = m_destination;
+			m_offset = Vector3(0,0,0);
+			m_viewport = m_nextViewport;
+			m_time = 0;
+		}
+	}
+	else if (m_yMoving && (m_viewport.y != m_nextViewport.y))
+	{
+		m_offset = Vector3::lerp(Vector3(0,0,0), Vector3(0, m_tileHeight * m_yDir, 0), m_time);
+		m_time += deltaTime * m_pNavPlayer->GetMoveSpeed();
+
+		if (m_time >= 1)
+		{
+			m_offset = Vector3(0,0,0);
+			m_viewport = m_nextViewport;
 			m_time = 0;
 		}
 	}
@@ -130,7 +149,7 @@ void Map::DrawBackground()
 			for (int y = m_viewport.y; y < m_viewport.y + m_viewport.h; y++)
 			{
 				if (m_map[l][x][y] != nullptr)
-					m_map[l][x][y]->Draw(_x * m_tileWidth, _y * m_tileHeight);
+					m_map[l][x][y]->Draw(_x * m_tileWidth - m_offset.x, _y * m_tileHeight - m_offset.y);
 
 				_y++;
 			}
@@ -148,7 +167,7 @@ void Map::DrawForeground()
 		for (int y = m_viewport.y; y < m_viewport.y + m_viewport.h; y++)
 		{
 			if (m_map[m_numLayers - 1][x][y] != nullptr)
-				m_map[m_numLayers - 1][x][y]->Draw(_x * m_tileWidth, _y * m_tileHeight);
+				m_map[m_numLayers - 1][x][y]->Draw(_x * m_tileWidth - m_offset.x, _y * m_tileHeight - m_offset.y);
 
 			_y++;
 		}

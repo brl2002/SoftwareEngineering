@@ -30,6 +30,8 @@ public:
 
 	bool GetXMoving() { return m_xMoving; }
 	bool GetYMoving() { return m_yMoving; }
+	bool IsLerping() { return (m_viewport.x != m_nextViewport.x || 
+		m_viewport.y != m_nextViewport.y) && (m_xMoving || m_yMoving); }
 
 	bool CanMoveHere(int x, int y);
 
@@ -44,12 +46,15 @@ private:
 	int m_midX, m_midY;
 
 	SDL_Rect m_viewport;
+	SDL_Rect m_nextViewport;
+
 	SDL_Rect m_mapEdges;
 	std::vector<SDL_Rect> m_blocked;
 
 	bool m_xMoving, m_yMoving;
-	Vector3 m_destination;
-	Vector3 m_previous;
+	int m_xDir, m_yDir;
+
+	Vector3 m_offset;
 	float m_time;
 
 	static int m_tileWidth, m_tileHeight;

@@ -49,7 +49,8 @@ void NavPlayer::Draw()
 
 void NavPlayer::Move(int x, int y, Map* map)
 {
-	if (map->CanMoveHere(m_x + x, m_y + y) && m_position == m_destination)
+	if (map->CanMoveHere(m_x + x, m_y + y) && m_position == m_destination
+		&& !map->IsLerping())
 	{
 		map->Move(x, y);
 
